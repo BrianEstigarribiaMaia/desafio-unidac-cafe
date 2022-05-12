@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Item</title>
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <nav th:class="menu">
+        <ul th:class="menu__shortcuts">
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/items}">Voltar</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="info-table" th:object="${item}">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Criar Item</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <label th:class="info-table__label" for="name">Nome</label>
+                    <input th:class="info-table__input" id="name" type="text" th:field="*{name}"
+                           th:value="${item.name}">
+                </td>
+            </tr>
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <button id="save" th:class="send-btn + ' ' + info-table__button"
+                            th:with="url = @{/items}, redirect = @{/items}"
+                            th:attr="onclick=|validateItem('${url}', '${redirect}')|">
+                        Adicionar
+                    </button>
+                    <p th:class="error" th:id="errorBox"></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script th:inline="javascript">
+
+    function validateItem(url, redirect) {
+        let name = document.getElementById('name').value;
+        let errorBox = document.getElementById('errorBox');
+
+        if (name.length > 0) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4) {
+                    if (xhttp.status === 404) {
+                        createItem(url, redirect, JSON.stringify({
+                            "name": name
+                        }))
+                    } else if(xhttp.status === 302) {
+                        errorBox.innerHTML = 'Item ' + name.toString() + ' já existe';
+                    }
+                }
+            }
+            xhttp.open('GET', '/items/name/' + name, true)
+            xhttp.send();
+        } else {
+            errorBox.innerHTML = 'O campo Nome do item não pode ser vazio';
+        }
+    }
+
+    function createItem(url, redirect, data) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", url);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.addEventListener('load', () => {
+            setTimeout(() => {
+                window.location = redirect;
+            }, 300)
+        })
+        xhttp.send(data)
+    }
+
+</script>
+</body>
+</html>

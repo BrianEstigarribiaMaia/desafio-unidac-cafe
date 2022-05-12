@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover itens do Colaborador</title>
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body th:object="${collaborator}">
+<header>
+    <nav th:class="menu">
+        <ul th:class="menu__shortcuts">
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/collaborators}">Voltar</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="table">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Nome</th>
+                <th th:class="table__header">CPF</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row">
+                <td th:class="table__data" th:text="${collaborator.fullName}"></td>
+                <td th:class="table__data" th:text="${collaborator.cpf}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="table">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Nome</th>
+                <th th:class="table__header">Opções</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row" th:each="item : ${itemsList}">
+                <td th:class="table__data" th:text="${item.name}"></td>
+                <td th:class="table__data">
+                    <div th:class="wrapper">
+                        <label hidden>
+                            <input th:id="${item.id}" name="checkbox" type="checkbox" th:value="${item.id}">
+                        </label>
+                        <button th:class="check-btn" th:style="'background: #e01f1f'"
+                                th:with="checkbox = ${item.id}, btnId = 'btn'+${item.id}"
+                                th:id="${btnId}" th:attr="onclick=|changeButton('${btnId}', '${checkbox}')|">
+                            Remover
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="info-table">
+            <tbody th:class="table__body">
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <button id="save" th:class="send-btn + ' ' + info-table__button"
+                            th:with="url = @{'/collaborators/id/'+${collaborator.id}+'/remove?items='}, redirect = @{/}"
+                            th:attr="onclick=|removeItems('${url}', '${redirect}')|">
+                        Finalizar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script th:inline="javascript">
+
+    function changeButton(btnId, checkbox) {
+        let btn = document.getElementById(btnId);
+        let box = document.getElementById(checkbox);
+
+        box.checked = !box.checked;
+
+        if (box.checked) {
+            btn.textContent = 'Reverter';
+            btn.style.backgroundColor = '#eabc15';
+        } else {
+            btn.textContent = 'Remover';
+            btn.style.backgroundColor = '#e01f1f';
+        }
+    }
+
+    function removeItems(url, redirect) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", url + getData());
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.addEventListener('load', () => {
+            setTimeout(() => {
+                window.location = redirect;
+            }, 500)
+        })
+        xhttp.send()
+    }
+
+    function getData() {
+
+        let boxes = document.getElementsByName('checkbox');
+        let items = [];
+        for (let i = 0; i < boxes.length; i++) {
+            if (boxes[i].checked) {
+                items[items.length] = boxes[i].value;
+            }
+        }
+
+        let data = "";
+        for (let i = 0; i < items.length; i++) {
+            if (i === items.length - 1) {
+                data += items[i];
+            } else {
+                data += items[i] + ',';
+            }
+        }
+
+        return data;
+    }
+</script>
+</body>
+</html>

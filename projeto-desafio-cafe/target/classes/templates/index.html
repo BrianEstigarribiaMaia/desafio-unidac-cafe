@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Café da Manha</title>
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:class="menu">
+    <h1 th:class="menu__title">Café da Manhã</h1>
+    <nav th:class="container">
+        <ul th:class="menu__shortcuts">
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/collaborators}">Lista de Colaboradores</a>
+            </li>
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/items}">Lista de Itens</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="table">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Nome</th>
+                <th th:class="table__header">CPF</th>
+                <th th:class="table__header">Itens</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row" th:each="participant : ${participants}">
+                <td th:class="table__data" th:text="${participant.fullName}"></td>
+                <td th:class="table__data" th:text="${participant.cpf}"></td>
+                <td th:class="table__data">
+                    <div>
+                        <p th:each="item : ${participant.itemNames}" th:class="table__span" th:text="${item}"></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

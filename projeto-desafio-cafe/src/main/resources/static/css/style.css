@@ -1,0 +1,217 @@
+:root {
+    --primary-color: rgb(158, 130, 189);
+    --primary-text-color: whitesmoke;
+    --secondary-text-color: #d0d0d0;
+    --dark-primary-color: #892097;
+    --darker-text-color: #2a2a2a;
+    --light-text-color: #404040;
+    --error: #8d0b0b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body{
+	background-image: url("../cafe.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2%;
+}
+
+.section__table {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.section__actions {
+    padding: 8px 0;
+}
+
+.actions__menu {
+    background: var(--dark-primary-color);
+}
+
+.edit-btn {
+    padding: 4px 8px;
+    background: #8e91b9;
+    color: var(--light-text-color);
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+}
+
+.delete-btn {
+    width: 100px;
+    padding: 4px 8px;
+    background: #8e91b9;
+    color: var(--darker-text-color);
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+}
+
+.send-btn {
+    padding: 4px 8px;
+    background: #8e91b9;
+    color: var(--darker-text-color);
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+}
+
+.check-btn {
+    min-width: 100px;
+    padding: 8px;
+    color: var(--darker-text-color);
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.error {
+    padding: 8px;
+    color: var(--error);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/*Menu Style*/
+.menu {
+    padding: 8px 0;
+    background: var(--primary-color);
+}
+
+.menu__title {
+    color: black;
+    font-size: 36px;
+    text-align: center;
+}
+
+
+.menu__shortcuts, .menu__shortcut {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+}
+
+.menu__link {
+    padding: 8px 16px;
+    color: var(--primary-text-color);
+    font-size: 24px;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.menu__link:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/*Table Style*/
+
+.table {
+    width: 100%;
+    margin: 16px 0;
+    border: 1px solid var(--primary-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table__head {
+    background: var(--primary-color);
+}
+
+.table__body > .table__row {
+    background: var(--secondary-text-color);
+}
+
+.table__body > .table__row:nth-of-type(2n - 1) {
+    background: var(--primary-text-color);
+}
+
+.table__header, .table__data {
+    padding: 8px 16px;
+    font-size: 20px;
+    text-align: center;
+    border-left: 1px solid var(--primary-color);
+    border-right: 1px solid var(--primary-color);
+}
+
+.table__header {
+    color: var(--primary-text-color);
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.table__data {
+    color: var(--light-text-color);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.table__span:last-of-type > .table__item-separator {
+    display: none;
+}
+
+/*Information Table*/
+
+.info-table {
+    width: 350px;
+    margin: 16px auto;
+    border: 1px solid var(--primary-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.info-table__label {
+    width: 100%;
+    display: inline-block;
+    padding: 8px 0;
+    font-size: 16px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.info-table__input {
+    width: 100%;
+    display: inline;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 8px 0 8px 5px;
+    border: 3px solid var(--primary-color);
+    border-radius: 3px;
+}
+
+.info-table__input:focus {
+    outline: none;
+}
+
+.info-table__button {
+    margin: 6px;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+}

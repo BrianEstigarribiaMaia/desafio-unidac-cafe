@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Colaboradores</title>
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:class="menu">
+    <h1 th:class="menu__title">Lista de Colaboradores</h1>
+    <nav>
+        <ul th:class="menu__shortcuts">
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/}">Voltar</a>
+            </li>
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/collaborators/create}">Adicionar Colaborador</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="table">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Nome</th>
+                <th th:class="table__header">CPF</th>
+                <th th:class="table__header" colspan="3">Opções</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row" th:each="collaborator : ${collaboratorsList}">
+                <td th:class="table__data" th:text="${collaborator.fullName}"></td>
+                <td th:class="table__data" th:text="${collaborator.cpf}"></td>
+                <td th:class="table__data">
+                    <a th:class="edit-btn" th:href="@{'/collaborators/edit/id/'+${collaborator.id}}">Editar</a>
+                </td>
+                <td th:class="table__data">
+                    <a th:class="send-btn" th:href="@{'/collaborators/id/'+${collaborator.id}+'/add-item'}">Adicionar
+                        Itens</a>
+                </td>
+                <td th:class="table__data">
+                    <a th:class="delete-btn" th:href="@{'/collaborators/id/'+${collaborator.id}+'/remove-item'}">Excluir
+                        Itens</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Colaborador</title>
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <nav th:class="menu">
+        <ul th:class="menu__shortcuts">
+            <li th:class="menu__shortcut">
+                <a th:class="menu__link" th:href="@{/collaborators}">Voltar</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section th:class="section__table">
+    <div th:class="container">
+        <table th:class="info-table" th:object="${collaborator}">
+            <thead th:class="table__head">
+            <tr th:class="table__row">
+                <th th:class="table__header">Editar Colaborador</th>
+            </tr>
+            </thead>
+            <tbody th:class="table__body">
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <label for="lastFullName" hidden>
+                        <input id="lastFullName" th:value="${collaborator.fullName}">
+                    </label>
+                    <label th:class="info-table__label" for="fullName">Nome Completo</label>
+                    <input th:class="info-table__input" id="fullName" type="text" th:field="*{fullName}"
+                           th:value="${collaborator.fullName}">
+                </td>
+            </tr>
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <label for="lastCpf" hidden>
+                        <input id="lastCpf" th:value="${collaborator.cpf}">
+                    </label>
+                    <label th:class="info-table__label" for="cpf">CPF</label>
+                    <input th:class="info-table__input" id="cpf" type="text" th:field="*{cpf}"
+                           th:value="${collaborator.cpf}">
+                </td>
+            </tr>
+            <tr th:class="table__row">
+                <td th:class="table__data">
+                    <button id="save" th:class="send-btn + ' ' + info-table__button"
+                            th:with="url = @{'/collaborators/id/' + ${collaborator.id}}, redirect = @{/collaborators}"
+                            th:attr="onclick=|validateCollaboratorAndUpdate('${url}', '${redirect}')|">
+                        Salvar
+                    </button>
+                    <button id="delete" th:class="delete-btn + ' ' + info-table__button"
+                            th:with="url = @{'/collaborators/id/' + ${collaborator.id}}, redirect = @{/collaborators}"
+                            th:attr="onclick=|deleteItem('${url}', '${redirect}')|">
+                        Excluir
+                    </button>
+                    <p th:class="error" th:id="errorBox"></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script th:inline="javascript">
+
+    function validateCollaboratorAndUpdate(url, redirect) {
+        let fullName = document.getElementById('fullName').value;
+        let cpf = document.getElementById('cpf').value;
+
+        let lastFullName = document.getElementById('lastFullName').value;
+        let lastCpf = document.getElementById('lastCpf').value;
+
+        let errorBox = document.getElementById('errorBox');
+
+        if (fullName.length === 0) {
+            errorBox.innerHTML = 'O campo Nome Completo não pode ser vazio.';
+            return;
+        }
+
+        if (cpf.length === 0) {
+            errorBox.innerHTML = 'O campo CPF não pode ser vazio.';
+            return;
+        } else if (cpf.length !== 11) {
+            errorBox.innerHTML = 'O campo CPF deve ter 11 digitos.';
+            return;
+        }
+
+        if (fullName === lastFullName && cpf === lastCpf) {
+            errorBox.innerHTML = 'O campo Nome Completo ou CPF não podem ser iguais aos passados.';
+            return;
+        }
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("PUT", url);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.addEventListener('load', () => {
+            setTimeout(() => {
+                window.location = redirect;
+            }, 500)
+        })
+        xhttp.send(JSON.stringify({
+            "fullName": fullName,
+            "cpf": cpf
+        }))
+    }
+
+    function deleteItem(url, redirect) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", url);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.addEventListener('load', () => {
+            setTimeout(() => {
+                window.location = redirect;
+            }, 500)
+        })
+        xhttp.send()
+    }
+</script>
+</body>
+</html>
